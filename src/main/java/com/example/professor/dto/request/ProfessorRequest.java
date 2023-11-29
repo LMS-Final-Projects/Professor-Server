@@ -18,8 +18,6 @@ import java.util.UUID;
 public class ProfessorRequest {
     private UUID id;
     private String professorName;
-    private Integer year;
-    private int professorNumber;
     private String email;
     private String phNumber;
     private List<String> majorNames;
@@ -28,11 +26,9 @@ public class ProfessorRequest {
         return Professor.builder()
                 .id(id)
                 .professorName(professorName)
-                .year(year)
-                .professorNumber(professorNumber)
                 .email(email)
                 .phNumber(phNumber)
-                .status(Status.재학)
+                .status(Status.재직)
                 .build();
     }
 }

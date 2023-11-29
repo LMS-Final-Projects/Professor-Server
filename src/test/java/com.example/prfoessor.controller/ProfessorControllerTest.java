@@ -3,6 +3,7 @@ package com.example.prfoessor.controller;
 import com.example.global.exception.MethodException;
 import com.example.professor.controller.ProfessorController;
 import com.example.professor.dto.request.ProfessorRequest;
+import com.example.professor.dto.response.ProfessorResponse;
 import com.example.professor.servcie.ProfessorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Nested;
@@ -43,7 +44,7 @@ class ProfessorControllerTest {
         @Test
         void success() throws Exception {
             // Given
-            ProfessorRequest dto = new ProfessorRequest(UUID.randomUUID(), "채오성", 2023, 202317, "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
+            ProfessorRequest dto = new ProfessorRequest(UUID.randomUUID(), "채오성", "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
 
             // When
             doNothing().when(professorService).saveProfessor(dto);
@@ -60,7 +61,7 @@ class ProfessorControllerTest {
         @Test
         void fail() throws Exception {
             // Given
-            ProfessorRequest dto = new ProfessorRequest(UUID.randomUUID(), "채오성", 2023, 202317, "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
+            ProfessorRequest dto = new ProfessorRequest(UUID.randomUUID(), "채오성", "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
 
             // When
             doThrow(new MethodException("저장 기능 실패")).when(professorService).saveProfessor(any(ProfessorRequest.class));
@@ -82,13 +83,13 @@ class ProfessorControllerTest {
         @Test
         void success() throws Exception {
             // Given
-            StudentRequest dto = new StudentRequest(UUID.randomUUID(), "채오성", 2023, 202317, "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
+            ProfessorRequest dto = new ProfessorRequest(UUID.randomUUID(), "채오성", "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
 
             // Response
-            StudentResponse res = new StudentResponse(dto.toEntity());
+            ProfessorResponse res = new ProfessorResponse(dto.toEntity());
 
             // When
-            given(studentService.findStudent(dto)).willReturn(res);
+            given(professorService.findProfessor(dto)).willReturn(res);
 
             // Then
             mockMvc.perform(get("/api/v1/student/info")
@@ -102,10 +103,10 @@ class ProfessorControllerTest {
         @Test
         void fail() throws Exception {
             // Given
-            StudentRequest dto = new StudentRequest(UUID.randomUUID(), "채오성", null, 202317, "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
+            ProfessorRequest dto = new ProfessorRequest(UUID.randomUUID(), "채오성", "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
 
             // When
-            doThrow(new MethodException("찾기 기능 실패")).when(studentService).findStudent(any(StudentRequest.class));
+            doThrow(new MethodException("찾기 기능 실패")).when(professorService).findProfessor(any(ProfessorRequest.class));
 
             // Then
             mockMvc.perform(get("/api/v1/student/info")
@@ -123,16 +124,16 @@ class ProfessorControllerTest {
         @Test
         void success() throws Exception {
             // Given
-            StudentRequest dto = new StudentRequest(UUID.randomUUID(), "채오성", 2023, 202317, "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
+            ProfessorRequest dto = new ProfessorRequest(UUID.randomUUID(), "채오성", "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
 
             // Response
-            StudentResponse res = new StudentResponse(dto.toEntity());
+            ProfessorResponse res = new ProfessorResponse(dto.toEntity());
 
             // When
-            given(studentService.updateStudent(dto)).willReturn(res);
+            given(professorService.updateProfessor(dto)).willReturn(res);
 
             // Then
-            mockMvc.perform(post("/api/v1/student/info")
+            mockMvc.perform(post("/api/v1/professor/info")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsBytes(dto))
                     )
@@ -143,13 +144,13 @@ class ProfessorControllerTest {
         @Test
         void fail() throws Exception {
             // Given
-            StudentRequest dto = new StudentRequest(UUID.randomUUID(), "채오성", 2023, 202317, "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
+            ProfessorRequest dto = new ProfessorRequest(UUID.randomUUID(), "채오성", "yrias8700@google.com", "010-6309-7402", List.of("math", "science"));
 
             // When
-            doThrow(new MethodException("저장 기능 실패")).when(studentService).updateStudent(any(StudentRequest.class));
+            doThrow(new MethodException("저장 기능 실패")).when(professorService).updateProfessor(any(ProfessorRequest.class));
 
             // Then
-            mockMvc.perform(post("/api/v1/student/info")
+            mockMvc.perform(post("/api/v1/professor/info")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsBytes(dto))
                     )
