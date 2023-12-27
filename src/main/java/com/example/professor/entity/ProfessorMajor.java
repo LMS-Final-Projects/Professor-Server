@@ -1,9 +1,6 @@
 package com.example.professor.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,13 +16,13 @@ import java.util.UUID;
 public class ProfessorMajor {
 
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private UUID professorId;
-
-    private Long majorId;
-
+    @Id
+    private String id;
+    @Column(nullable = false)
+    private String professorId;
+    @Column(nullable = false)
+    private String checkMajor;
+    @Column(nullable = false)
     private String majorName;
 
 

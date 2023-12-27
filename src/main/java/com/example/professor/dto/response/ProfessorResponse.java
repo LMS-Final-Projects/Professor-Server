@@ -10,18 +10,15 @@ import java.util.UUID;
 @Setter
 public class ProfessorResponse {
 
-    private UUID id;
+    private String id;
     private String professorName;
-    private Integer year;
-    private Integer professorNumber;
+    private String professorNumber;
     private String email;
     private String phNumber;
 
     public ProfessorResponse(Professor professor) {
         this.id = professor.getId();
         this.professorName = professor.getProfessorName();
-        this.year = professor.getYear();
-        this.professorNumber = professor.getProfessorNumber();
         this.email = professor.getEmail();
         this.phNumber = professor.getPhNumber();
     }

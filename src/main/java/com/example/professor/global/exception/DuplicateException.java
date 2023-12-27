@@ -1,4 +1,4 @@
-package com.example.global.exception;
+package com.example.professor.global.exception;
 
 import lombok.Getter;
 

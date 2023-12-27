@@ -1,12 +1,14 @@
 package com.example.professor.servcie;
 
-
-import com.example.global.exception.MethodException;
-import com.example.global.exception.NotFoundException;
 import com.example.professor.dto.request.StatusRequest;
 import com.example.professor.dto.request.ProfessorRequest;
+import com.example.professor.dto.response.MajorResponse;
 import com.example.professor.dto.response.ProfessorResponse;
 import com.example.professor.entity.Professor;
+import com.example.professor.entity.ProfessorMajor;
+import com.example.professor.global.exception.MethodException;
+import com.example.professor.global.exception.NotFoundException;
+import com.example.professor.repository.ProfessorMajorRepository;
 import com.example.professor.repository.ProfessorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,17 +22,7 @@ import java.util.List;
 public class ProfessorService {
 
     private final ProfessorRepository repository;
-
-    //교수 회원가입 할때, 정보 저장.
-    @Transactional
-    public void saveProfessor(ProfessorRequest request) {
-
-        try {
-            repository.save(request.toEntity());
-        } catch (Exception e) {
-            throw new MethodException("회원가입 정보 저장 실패");
-        }
-    }
+    private final ProfessorMajorRepository professorMajorRepository;
 
     //교수 정보 찾기.
     public ProfessorResponse findProfessor(ProfessorRequest request) {
@@ -40,19 +32,27 @@ public class ProfessorService {
         return dto;
     }
 
+    //전공 찾기
+
+    public MajorResponse findMajor(ProfessorRequest request) {
+
+        ProfessorMajor professorMajor = professorMajorRepository.findByProfessorId(request.getId()).orElseThrow(() -> new NotFoundException("해당 유저가 없습니다."));
+        MajorResponse dto = new MajorResponse(professorMajor);
+        return dto;
+    }
+
 
     //교수 정보 변경.
     public ProfessorResponse updateProfessor(ProfessorRequest request) {
         Professor professor = repository.findByProfessorId(request.getId()).orElseThrow(() -> new NotFoundException("해당 유저가 없습니다."));
-        repository.findByProfessorId(request.getId());
-        ProfessorResponse dto = new ProfessorResponse(professor);
+        Professor save = repository.save(professor);
+        ProfessorResponse dto = new ProfessorResponse(save);
         return dto;
     }
 
     //교수 상태 변경
     public ProfessorResponse updateStatus(StatusRequest request) {
         Professor professor = repository.findByProfessorId(request.getId()).orElseThrow(() -> new NotFoundException("해당 유저가 없습니다."));
-        repository.findByProfessorId(request.getId());
         ProfessorResponse dto = new ProfessorResponse(professor);
         return dto;
     }

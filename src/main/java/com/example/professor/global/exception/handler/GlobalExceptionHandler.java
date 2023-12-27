@@ -1,8 +1,8 @@
-package com.example.global.exception.handler;
+package com.example.professor.global.exception.handler;
 
 
-import com.example.global.response.LmsResponse;
-import com.example.global.exception.*;
+import com.example.professor.global.exception.*;
+import com.example.professor.global.response.LmsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

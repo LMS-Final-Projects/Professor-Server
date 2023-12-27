@@ -15,15 +15,18 @@ import java.util.UUID;
 @Builder
 public class Professor {
 
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Id
+    private String id;
+    @Column(nullable = false)
     private String professorName;
-    @Column(unique = true)
+    @Column(nullable = false)
     private String email;
-    @Column(unique = true)
+    @Column(nullable = false)
     private String phNumber;
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    @Column(nullable = false)
+    private String majorList;
+    @Column(nullable = false)
+    private String status;
 
 }
 

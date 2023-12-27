@@ -1,7 +1,6 @@
 package com.example.professor.dto.request;
 
 
-import com.example.professor.entity.Status;
 import com.example.professor.entity.Professor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class ProfessorRequest {
-    private UUID id;
+    private String id;
     private String professorName;
     private String email;
     private String phNumber;
@@ -28,7 +27,6 @@ public class ProfessorRequest {
                 .professorName(professorName)
                 .email(email)
                 .phNumber(phNumber)
-                .status(Status.재직)
                 .build();
     }
 }

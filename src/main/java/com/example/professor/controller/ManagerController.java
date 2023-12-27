@@ -1,9 +1,10 @@
 package com.example.professor.controller;
 
 
-import com.example.global.response.LmsResponse;
+
 import com.example.professor.dto.request.StatusRequest;
 import com.example.professor.dto.response.ProfessorResponse;
+import com.example.professor.global.response.LmsResponse;
 import com.example.professor.servcie.ProfessorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/manager/professors")
+@RequestMapping("/api/v1/manager")
 @RequiredArgsConstructor
 public class ManagerController {
 
