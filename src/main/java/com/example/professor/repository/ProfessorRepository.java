@@ -11,6 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface ProfessorRepository extends JpaRepository<Professor, String> {
-    @Query("SELECT p from Professor as p where p = :id")
+    @Query("SELECT p from Professor as p where p.id = :id")
     Optional<Professor> findByProfessorId(@Param("id")String id);
 }

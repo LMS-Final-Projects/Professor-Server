@@ -1,7 +1,8 @@
 package com.example.professor.servcie;
 
-import com.example.professor.dto.request.StatusRequest;
+import com.example.professor.dto.request.MajorRequest;
 import com.example.professor.dto.request.ProfessorRequest;
+import com.example.professor.dto.request.StatusRequest;
 import com.example.professor.dto.response.MajorResponse;
 import com.example.professor.dto.response.ProfessorResponse;
 import com.example.professor.entity.Professor;
@@ -25,24 +26,37 @@ public class ProfessorService {
     private final ProfessorMajorRepository professorMajorRepository;
 
     //교수 정보 찾기.
-    public ProfessorResponse findProfessor(ProfessorRequest request) {
+    @Transactional
+    public ProfessorResponse findProfessor(String memberId) {
 
-        Professor professor = repository.findByProfessorId(request.getId()).orElseThrow(() -> new NotFoundException("해당 유저가 없습니다."));
+        Professor professor = repository.findByProfessorId(memberId).orElseThrow(() -> new NotFoundException("해당 유저가 없습니다."));
         ProfessorResponse dto = new ProfessorResponse(professor);
         return dto;
     }
 
     //전공 찾기
+    @Transactional
+    public List<MajorResponse> findMajor(String professorId) {
 
-    public MajorResponse findMajor(ProfessorRequest request) {
+        List<ProfessorMajor> byProfessorId = professorMajorRepository.findByProfessorId(professorId);
+        List<MajorResponse> majorResponseList = new ArrayList<>();
 
-        ProfessorMajor professorMajor = professorMajorRepository.findByProfessorId(request.getId()).orElseThrow(() -> new NotFoundException("해당 유저가 없습니다."));
-        MajorResponse dto = new MajorResponse(professorMajor);
-        return dto;
+        for (ProfessorMajor professorMajor : byProfessorId) {
+
+            MajorResponse majorResponse = new MajorResponse();
+
+            majorResponse.setId(professorMajor.getId());
+            majorResponse.setMajorName(professorMajor.getMajorName());
+
+            majorResponseList.add(majorResponse);
+        }
+
+        return majorResponseList;
     }
 
 
     //교수 정보 변경.
+    @Transactional
     public ProfessorResponse updateProfessor(ProfessorRequest request) {
         Professor professor = repository.findByProfessorId(request.getId()).orElseThrow(() -> new NotFoundException("해당 유저가 없습니다."));
         Professor save = repository.save(professor);
@@ -51,6 +65,7 @@ public class ProfessorService {
     }
 
     //교수 상태 변경
+    @Transactional
     public ProfessorResponse updateStatus(StatusRequest request) {
         Professor professor = repository.findByProfessorId(request.getId()).orElseThrow(() -> new NotFoundException("해당 유저가 없습니다."));
         ProfessorResponse dto = new ProfessorResponse(professor);
@@ -59,6 +74,7 @@ public class ProfessorService {
 
 
     //교수 전체 조회.
+    @Transactional
     public List<ProfessorResponse> getAll() {
         List<ProfessorResponse> dtoList = new ArrayList<>();
         try {

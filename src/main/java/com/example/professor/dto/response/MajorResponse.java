@@ -13,9 +13,5 @@ public class MajorResponse {
     private String id;
     private String majorName;
 
-    public MajorResponse(ProfessorMajor professorMajor) {
-        this.id = professorMajor.getId();
-        this.majorName = professorMajor.getMajorName();
-    }
 
 }

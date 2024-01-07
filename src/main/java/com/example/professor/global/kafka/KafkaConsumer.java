@@ -39,6 +39,7 @@ public class KafkaConsumer {
                             .phNumber((String) map.get("phNumber"))
                             .email((String) map.get("email"))
                             .majorList((String) map.get("majorList"))
+                            .status((String) map.get("status"))
                             .build();
                     professorRepository.save(save);
 
@@ -54,25 +55,24 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "major", groupId = "professor_1")
     public void majorListener(String kafkaMessage) {
+        Map<Object, Object> map;
         ObjectMapper mapper = new ObjectMapper();
         try {
-            List< Map<Object, Object>> majorList = mapper.readValue(kafkaMessage, new TypeReference<>() {});
-            for ( Map<Object, Object> professorMajor : majorList) {
-                String action = (String) professorMajor.get("kafkaAction");
-                if (action.equals(KafkaAction.CREATE.name())) {
-                    String role =  (String) professorMajor.get("role");
-                    if ("PROFESSOR".equals(role)) {
-                        ProfessorMajor build = ProfessorMajor.builder()
-                                .id((String) professorMajor.get("id"))
-                                .professorId((String) professorMajor.get("professorId"))
-                                .majorName((String) professorMajor.get("majorName"))
-                                .checkMajor((String) professorMajor.get("checkMajor"))
-                                .build();
-                        professorMajorRepository.save(build);
-                        System.out.println(professorMajor);
-                    } else {
-                        System.out.println("Skipping Professor save due to invalid role: " + professorMajor);
-                    }
+            map = mapper.readValue(kafkaMessage, new TypeReference<>() {});
+            String action = (String) map.get("kafkaAction");
+            if (action.equals(KafkaAction.CREATE.name())) {
+                String role = (String) map.get("role");
+                if ("PROFESSOR".equals(role)) {
+                    ProfessorMajor build = ProfessorMajor.builder()
+                            .id((String) map.get("id"))
+                            .professorId((String) map.get("memberId"))
+                            .majorName((String) map.get("majorName"))
+                            .checkMajor((String) map.get("checkMajor"))
+                            .build();
+                    professorMajorRepository .save(build);
+                    System.out.println(map);
+                } else {
+                    System.out.println("Skipping Student save due to invalid role: " + map);
                 }
             }
         } catch (JsonProcessingException ex) {
