@@ -1,4 +1,4 @@
-package com.example.global.response;
+package com.example.professor.global.response;
 
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -16,7 +16,7 @@ public class LmsResponse<T> {
     private HttpStatus code;
     private T data;
     private String msg;
-    private String  errorMsg;
+    private String errorMsg;
     private LocalDateTime currentTime;
 
     public LmsResponse(HttpStatus code, T data, String msg, String errorMsg, LocalDateTime currentTime) {
